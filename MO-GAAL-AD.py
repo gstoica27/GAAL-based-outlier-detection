@@ -190,7 +190,7 @@ if __name__ == '__main__':
                     stop = 1
 
                 print('Current Step:')
-                for name, history in train_history:
+                for name, history in train_history.items():
                     print('{}: {}'.format(name, history[-1]))
 
         # Detection result
