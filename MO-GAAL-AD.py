@@ -202,8 +202,8 @@ if __name__ == '__main__':
             os.makedirs(predictions_dir, exist_ok=True)
             for filename in os.listdir(test_dir):
                 test_file = os.path.join(test_dir, filename)
-                data_x, data_id = load_test_data(test_file)
-                p_value = discriminator.predict(data_x)
+                test_data_x, data_id = load_test_data(test_file)
+                p_value = discriminator.predict(test_data_x)
                 # assign save path
                 basename = os.path.splitext(filename)[0]
                 save_file = os.path.join(predictions_dir, basename + '.txt')
