@@ -15,6 +15,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Run MO-GAAL.")
     parser.add_argument('--path', nargs='?', default='Data/Annthyroid',
                         help='Input data path.')
+    parser.add_argument('--data_dir', help='Input data directory', default='Data/EDA')
     parser.add_argument('--k', type=int, default=10,
                         help='Number of sub_generator.')
     parser.add_argument('--stop_epochs', type=int, default=25,
@@ -59,15 +60,14 @@ def load_data():
     return data_x, data_y, data_id
 
 def load_train_data():
-    train_path = os.path.join(args.path, 'train_features.txt')
-    data_x = np.loadtxt(train_path)
+    train_file = os.path.join(args.data_dir, 'train_features.txt')
+    data_x = np.loadtxt(train_file)
     data_y = np.array(['nor'] * len(data_x))
     data_id = np.arange(len(data_x))
     return data_x, data_y, data_id
 
-def load_test_data():
-    test_path = os.path.join(args.path, 'test_features.txt')
-    data_x = np.loadtxt(test_path)
+def load_test_data(file_path):
+    data_x = np.loadtxt(file_path)
     data_id = np.arange(data_x)
     return data_x, data_id
 
@@ -191,30 +191,15 @@ if __name__ == '__main__':
 
         # Detection result
         print('Obtaining test data predictions...')
-        data_x, data_id = load_test_data()
-        p_value = discriminator.predict(data_x)
-        # data_y = pd.DataFrame(data_y)
-        # result = np.concatenate((p_value, data_y), axis=1)
-        # result = pd.DataFrame(result, columns=['p', 'y'])
-        # result = result.sort_values('p', ascending=True)
-        #
-        # # Calculate the AUC
-        # inlier_parray = result.loc[lambda df: df.y == "nor", 'p'].values
-        # outlier_parray = result.loc[lambda df: df.y == "out", 'p'].values
-        # sum = 0.0
-        # for o in outlier_parray:
-        #     for i in inlier_parray:
-        #         if o < i:
-        #             sum += 1.0
-        #         elif o == i:
-        #             sum += 0.5
-        #         else:
-        #             sum += 0
-        # AUC = '{:.4f}'.format(sum / (len(inlier_parray) * len(outlier_parray)))
-        # print('AUC:{}'.format(AUC))
-        # for i in range(num_batches):
-        #     train_history['auc'].append(AUC)
-        print('Saving predictions....')
-        np.savetxt(os.path.join(args.path, 'test_predictions.txt'), p_value)
-
-    plot(train_history, 'loss')
+        test_dir = os.path.join(args.data_dir, 'test_features')
+        predictions_dir = os.path.join(args.data_dir, 'test_predictions')
+        os.makedirs(predictions_dir, exist_ok=True)
+        for filename in os.listdir(test_dir):
+            test_file = os.path.join(test_dir, filename)
+            data_x, data_id = load_test_data(test_file)
+            p_value = discriminator.predict(data_x)
+            # assign save path
+            basename = os.path.splitext(filename)[0]
+            save_file = os.path.join(predictions_dir, basename + '.txt')
+            print('Saving predictions to {}....'.format(save_file))
+            np.savetxt(save_file, p_value)
