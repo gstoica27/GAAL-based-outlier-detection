@@ -189,6 +189,10 @@ if __name__ == '__main__':
                 if epoch +1  > args.stop_epochs:
                     stop = 1
 
+                print('Current Step:')
+                for name, history in train_history:
+                    print('{}: {}'.format(name, history[-1]))
+
         # Detection result
         print('Obtaining test data predictions...')
         test_dir = os.path.join(args.data_dir, 'test')
