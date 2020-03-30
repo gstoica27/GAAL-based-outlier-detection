@@ -68,7 +68,7 @@ def load_train_data():
 
 def load_test_data(file_path):
     data_x = np.loadtxt(file_path)
-    data_id = np.arange(data_x)
+    data_id = np.arange(len(data_x))
     return data_x, data_id
 
 # Plot loss history
