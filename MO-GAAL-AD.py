@@ -193,17 +193,17 @@ if __name__ == '__main__':
                 for name, history in train_history.items():
                     print('{}: {}'.format(name, history[-1]))
 
-        # Detection result
-        print('Obtaining test data predictions...')
-        test_dir = os.path.join(args.data_dir, 'test')
-        predictions_dir = os.path.join(args.data_dir, 'test_predictions')
-        os.makedirs(predictions_dir, exist_ok=True)
-        for filename in os.listdir(test_dir):
-            test_file = os.path.join(test_dir, filename)
-            data_x, data_id = load_test_data(test_file)
-            p_value = discriminator.predict(data_x)
-            # assign save path
-            basename = os.path.splitext(filename)[0]
-            save_file = os.path.join(predictions_dir, basename + '.txt')
-            print('Saving predictions to {}....'.format(save_file))
-            np.savetxt(save_file, p_value)
+            # Detection result. Save after each epoch.
+            print('Obtaining test data predictions...')
+            test_dir = os.path.join(args.data_dir, 'test')
+            predictions_dir = os.path.join(args.data_dir, 'test_predictions')
+            os.makedirs(predictions_dir, exist_ok=True)
+            for filename in os.listdir(test_dir):
+                test_file = os.path.join(test_dir, filename)
+                data_x, data_id = load_test_data(test_file)
+                p_value = discriminator.predict(data_x)
+                # assign save path
+                basename = os.path.splitext(filename)[0]
+                save_file = os.path.join(predictions_dir, basename + '.txt')
+                print('Saving predictions to {}....'.format(save_file))
+                np.savetxt(save_file, p_value)
