@@ -15,7 +15,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Run MO-GAAL.")
     parser.add_argument('--path', nargs='?', default='Data/Annthyroid',
                         help='Input data path.')
-    parser.add_argument('--data_dir', help='Input data directory', default='Data/EDA')
+    parser.add_argument('--data_dir', help='Input data directory', default='Data/EDA/features')
     parser.add_argument('--k', type=int, default=10,
                         help='Number of sub_generator.')
     parser.add_argument('--stop_epochs', type=int, default=25,
