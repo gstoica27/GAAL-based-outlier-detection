@@ -196,7 +196,7 @@ if __name__ == '__main__':
             # Detection result. Save after each epoch.
             print('Obtaining test data predictions...')
             test_dir = os.path.join(args.data_dir, 'test')
-            predictions_dir = os.path.join(args.data_dir, 'test_predictions')
+            predictions_dir = os.path.join(args.data_dir, 'test_predictions', '{}_partitions'.format(k))
             os.makedirs(predictions_dir, exist_ok=True)
             for filename in os.listdir(test_dir):
                 test_file = os.path.join(test_dir, filename)
