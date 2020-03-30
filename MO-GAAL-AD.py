@@ -158,6 +158,8 @@ if __name__ == '__main__':
                 Y = np.array([1] * batch_size + [0] * int(noise_size))
 
                 # Train discriminator
+                if len(X) != len(Y):
+                    import pdb;pdb.set_trace()
                 discriminator_loss = discriminator.train_on_batch(X, Y)
                 train_history['discriminator_loss'].append(discriminator_loss)
 
