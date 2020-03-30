@@ -191,7 +191,7 @@ if __name__ == '__main__':
 
         # Detection result
         print('Obtaining test data predictions...')
-        test_dir = os.path.join(args.data_dir, 'test_features')
+        test_dir = os.path.join(args.data_dir, 'test')
         predictions_dir = os.path.join(args.data_dir, 'test_predictions')
         os.makedirs(predictions_dir, exist_ok=True)
         for filename in os.listdir(test_dir):
